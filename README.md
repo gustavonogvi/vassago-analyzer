@@ -30,11 +30,13 @@ optional export: JSON or HTML report
 
 | Rule | Technique | Severity |
 |---|---|---|
-| Brute Force Detected | T1110.001 — Password Guessing | HIGH |
-| Credential Stuffing Detected | T1110.004 — Credential Stuffing | HIGH |
-| Password Spray Detected | T1110.003 — Password Spraying | MEDIUM |
-| Known Attack Tool Fingerprint | T1059 — Command and Scripting Interpreter | MEDIUM |
-| Off-Hours Activity | T1078 — Valid Accounts | LOW |
+| Brute Force Detected | [T1110.001 — Password Guessing](https://attack.mitre.org/techniques/T1110/001) | HIGH |
+| Credential Stuffing Detected | [T1110.004 — Credential Stuffing](https://attack.mitre.org/techniques/T1110/004) | HIGH |
+| Password Spray Detected | [T1110.003 — Password Spraying](https://attack.mitre.org/techniques/T1110/003) | MEDIUM |
+| Known Attack Tool Fingerprint | [T1059 — Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059) | MEDIUM |
+| Off-Hours Activity | [T1078 — Valid Accounts](https://attack.mitre.org/techniques/T1078) | LOW |
+
+Techniques sourced from the [MITRE ATT&CK framework](https://attack.mitre.org).
 
 ## stack
 
