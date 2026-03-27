@@ -61,6 +61,23 @@ cd vassago-analyzer
 uv sync
 ```
 
+## data dependency
+
+Vassago reads from a SQLite database produced by [Naberius](https://github.com/gustavonogvi/naberius), the SSH honeypot collector. Before running, `data/naberius.db` must be present. Three ways to provide it:
+
+```bash
+# copy the database from the honeypot host
+cp /path/to/naberius.db data/naberius.db
+
+# or symlink it
+ln -s /path/to/naberius.db data/naberius.db
+
+# or point --db at it directly
+uv run python main.py --db /path/to/naberius.db
+```
+
+The file is gitignored — it is never committed to the repo.
+
 ## running
 
 ```bash
