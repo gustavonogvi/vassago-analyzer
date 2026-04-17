@@ -67,7 +67,7 @@ class CredentialStuffingRule:
         cursor = conn.cursor()
         cursor.execute("""
             SELECT ip,
-                   COUNT(DISTINCT username || ':' || password) as unique_pairs,
+                   COUNT(DISTINCT username || char(0) || password) as unique_pairs,
                    MAX(timestamp) as last_seen,
                    MAX(country)   as country
             FROM events

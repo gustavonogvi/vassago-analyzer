@@ -1,5 +1,7 @@
 import argparse
+import html
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -11,7 +13,7 @@ RESET = "\033[0m"
 
 SEVERITY_COLOR = {
     "LOW":      "\033[33m",
-    "MEDIUM":   "\033[33m",
+    "MEDIUM":   "\033[38;5;208m",
     "HIGH":     "\033[31m",
     "CRITICAL": "\033[35m",
 }
@@ -48,7 +50,7 @@ def main() -> None:
     if not db_path.exists():
         print(f"[!] Database not found: {db_path}")
         print("    Use --db to point to your naberius.db file.")
-        return
+        sys.exit(1)
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
@@ -108,10 +110,10 @@ def _export_html(alerts: list[Alert], path: str) -> None:
         <tr>
           <td>{badge.get(a.severity, a.severity)}</td>
           <td>{a.rule}</td>
-          <td>{a.description}</td>
-          <td class="mono">{ip_cell}</td>
+          <td>{html.escape(a.description)}</td>
+          <td class="mono">{html.escape(ip_cell)}</td>
           <td class="mono muted">{a.mitre_technique}</td>
-          <td class="mono muted">{a.timestamp[:19]}</td>
+          <td class="mono muted">{a.timestamp[:19] if len(a.timestamp) >= 19 else a.timestamp}</td>
         </tr>"""
 
     generated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

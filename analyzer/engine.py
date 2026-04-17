@@ -11,16 +11,17 @@ def run_analysis(naberius_db: str, alerts_db: str) -> list[Alert]:
     conn = sqlite3.connect(naberius_db)
     all_alerts: list[Alert] = []
 
-    for rule in ALL_RULES:
-        try:
-            alerts = rule.run(conn)
-            all_alerts.extend(alerts)
-            status = "!" if alerts else " "
-            print(f"  [{status}] {rule.name}: {len(alerts)} alert(s)")
-        except Exception as e:
-            print(f"  [x] {rule.name} failed: {e}")
-
-    conn.close()
+    try:
+        for rule in ALL_RULES:
+            try:
+                alerts = rule.run(conn)
+                all_alerts.extend(alerts)
+                status = "!" if alerts else " "
+                print(f"  [{status}] {rule.name}: {len(alerts)} alert(s)")
+            except (sqlite3.Error, ValueError, KeyError) as e:
+                print(f"  [x] {rule.name} failed: {e}")
+    finally:
+        conn.close()
 
     all_alerts.sort(key=lambda a: SEVERITY_ORDER.get(a.severity, 0), reverse=True)
 
