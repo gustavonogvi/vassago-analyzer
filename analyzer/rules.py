@@ -151,7 +151,7 @@ class KnownToolHASSHRule:
         "92674389fa1e47a27ddd8d9b63ecd42b": "Paramiko (Python SSH library)",
         "b12b093e97afdd43f7941f6f1f5f2d3f": "Metasploit SSH scanner",
         "3f0099d323fed54bb09b3f30f271b138": "Hydra SSH brute-forcer",
-        "c6a7f9f87c9dbb9fc2ed0a7b4e4cbf2a": "Medusa SSH scanner",
+        "57e4cc8ee36c3d78f75c6a05acd55963": "Medusa SSH brute-forcer",
     }
 
     def run(self, conn: sqlite3.Connection) -> list[Alert]:
