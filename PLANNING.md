@@ -47,10 +47,12 @@ The long-term goal is to evolve into a full detection pipeline — with pluggabl
 
 ---
 
-## EPIC 04 — Live Ingestion [todo]
+## EPIC 04 — Live Ingestion [done]
 
 > Allow Vassago to consume live data instead of only static databases. This is the key step that turns Vassago from a batch analyzer into a real-time detection engine — instead of running every 5 minutes via cron reading a file, it polls the Naberius REST API continuously and analyzes only new events as they arrive.
 
-**HU-12** [todo] — As an analyst, I want Vassago to optionally consume events from a REST API so that it can run against a live honeypot without direct database access.
+**Implementation:** `--api-url` fetches `GET /events` from Naberius, loads the response into an in-memory SQLite database with the same schema, and passes the connection to the existing detection rules unchanged. The `--db` flag still works for offline/file-based analysis.
 
-**HU-13** [todo] — As an analyst, I want to configure the API URL via CLI flag so that Vassago works with any compatible event source.
+**HU-12** [done] — As an analyst, I want Vassago to optionally consume events from a REST API so that it can run against a live honeypot without direct database access.
+
+**HU-13** [done] — As an analyst, I want to configure the API URL via CLI flag so that Vassago works with any compatible event source.

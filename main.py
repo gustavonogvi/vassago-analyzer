@@ -5,7 +5,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from analyzer.engine import run_analysis
+from analyzer.engine import run_analysis, run_analysis_from_api
 from analyzer.rules import Alert
 
 BOLD  = "\033[1m"
@@ -44,22 +44,32 @@ def main() -> None:
         default="reports/report",
         help="Report output path without extension (default: reports/report)",
     )
+    parser.add_argument(
+        "--api-url",
+        default=None,
+        help="Naberius REST API base URL (e.g. http://192.168.56.20:5000). When set, --db is ignored.",
+    )
     args = parser.parse_args()
-
-    db_path = Path(args.db)
-    if not db_path.exists():
-        print(f"[!] Database not found: {db_path}")
-        print("    Use --db to point to your naberius.db file.")
-        sys.exit(1)
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
     print(f"\n{BOLD}[*] Argus — SSH Log Analyzer{RESET}")
-    print(f"    Source DB : {db_path}")
-    print(f"    Alerts DB : {args.alerts}")
-    print(f"\n[*] Running detection rules...\n")
 
-    alerts = run_analysis(str(db_path), args.alerts)
+    if args.api_url:
+        print(f"    Source    : {args.api_url} (REST API)")
+        print(f"    Alerts DB : {args.alerts}")
+        print(f"\n[*] Running detection rules...\n")
+        alerts = run_analysis_from_api(args.api_url, args.alerts)
+    else:
+        db_path = Path(args.db)
+        if not db_path.exists():
+            print(f"[!] Database not found: {db_path}")
+            print("    Use --db to point to your naberius.db file.")
+            sys.exit(1)
+        print(f"    Source DB : {db_path}")
+        print(f"    Alerts DB : {args.alerts}")
+        print(f"\n[*] Running detection rules...\n")
+        alerts = run_analysis(str(db_path), args.alerts)
 
     print(f"\n{'─' * 60}")
     print(f"[*] {len(alerts)} alert(s) generated\n")
